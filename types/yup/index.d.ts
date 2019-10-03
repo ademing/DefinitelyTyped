@@ -15,7 +15,11 @@
 
 
 
+
+
 //                 Aaron Deming <https://github.com/ademing>
+
+
 
 
 
@@ -298,6 +302,8 @@ export interface WhenOptionsBuilderFunction<T> {
 
 
 
+
+
 export type WhenOptionsBuilderObjectIs<T1, T2, T3> =
   | ((...values: any[]) => boolean)
   | ((value1: T1, value2: T2, value3: T3) => boolean)
@@ -306,6 +312,7 @@ export type WhenOptionsBuilderObjectIs<T1, T2, T3> =
   | null
   | object
   | string;
+
 
 
 
@@ -319,9 +326,12 @@ export type WhenOptionsBuilderObject<T1, T2, T3> =
     }
   | object;
 
+
 export type WhenOptions<TSchema, TValue1 = any, TValue2 = any, TValue3 = any> =
   | WhenOptionsBuilderFunction<TSchema>
   | WhenOptionsBuilderObject<TValue1, TValue2, TValue3>;
+
+
 
 
 
