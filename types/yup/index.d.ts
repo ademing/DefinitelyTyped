@@ -13,7 +13,11 @@
 //                 Maurice de Beijer <https://github.com/mauricedb>
 //                 Kalley Powell <https://github.com/kalley>
 
+
+
 //                 Aaron Deming <https://github.com/ademing>
+
+
 
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.1
@@ -293,6 +297,7 @@ export interface WhenOptionsBuilderFunction<T> {
 }
 
 
+
 export type WhenOptionsBuilderObjectIs<T1, T2, T3> =
   | ((...values: any[]) => boolean)
   | ((value1: T1, value2: T2, value3: T3) => boolean)
@@ -304,19 +309,20 @@ export type WhenOptionsBuilderObjectIs<T1, T2, T3> =
 
 
 
+
 export type WhenOptionsBuilderObject<T1, T2, T3> =
-| {
-  is: WhenOptionsBuilderObjectIs<T1, T2, T3>;
+  | {
+      is: WhenOptionsBuilderObjectIs<T1, T2, T3>;
 
-  then: any;
-   otherwise: any;
-  }
-| object;
-
+      then: any;
+      otherwise: any;
+    }
+  | object;
 
 export type WhenOptions<TSchema, TValue1 = any, TValue2 = any, TValue3 = any> =
   | WhenOptionsBuilderFunction<TSchema>
   | WhenOptionsBuilderObject<TValue1, TValue2, TValue3>;
+
 
 
 export interface TestContext {
