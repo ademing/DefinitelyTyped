@@ -149,14 +149,16 @@ mixed.oneOf(['hello', 'world'], ({ random }) => `one of ${random}`);
 mixed.notOneOf(['hello', 'world'], 'message');
 mixed.notOneOf(['hello', 'world'], () => 'message');
 mixed.when('isBig', {
-    is: () => true,
-    then: yup.number().min(5),
-    otherwise: yup.number().min(0),
+  is: () => true,
+
+  then: yup.number().min(5),
+  otherwise: yup.number().min(0),
 });
 mixed.when(['isBig', 'isSpecial'], {
-    is: (isBig, isSpecial, x, y) => isBig && isSpecial,
-    then: yup.number().min(5),
-    otherwise: yup.number().min(0),
+  is: (isBig, isSpecial, x, y) => isBig && isSpecial,
+
+  then: yup.number().min(5),
+  otherwise: yup.number().min(0),
 });
 mixed
     .when('isBig', {
@@ -166,13 +168,15 @@ mixed
     })
     .when('$other', (value: any, schema: MixedSchema) => (value === 4 ? schema.required() : schema));
 
+
 mixed.when<number, string, boolean>(['maxValue', 'message', 'isBig'], {
-    is: (maxValue: number, message: string, isBig: boolean): boolean => {
-        return (maxValue > 0) && (message.length > 0) && isBig;
-    },
-    then: yup.number().min(5),
-    otherwise: yup.number().min(0),
+  is: (maxValue: number, message: string, isBig: boolean): boolean => {
+    return maxValue > 0 && message.length > 0 && isBig;
+  },
+  then: yup.number().min(5),
+  otherwise: yup.number().min(0),
 });
+
 
 // tslint:disable-next-line:no-invalid-template-strings
 mixed.test('is-jimmy', '${path} is not Jimmy', value => value === 'jimmy');

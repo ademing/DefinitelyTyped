@@ -12,7 +12,9 @@
 //                 Desmond Koh <https://github.com/deskoh>
 //                 Maurice de Beijer <https://github.com/mauricedb>
 //                 Kalley Powell <https://github.com/kalley>
+
 //                 Aaron Deming <https://github.com/ademing>
+
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.1
 
@@ -50,39 +52,53 @@ export type TestOptionsMessage<Extra extends Record<string, any> = {}, R = any> 
     | ((params: Extra & Partial<TestMessageParams>) => R);
 
 export interface Schema<T> {
-    clone(): this;
-    label(label: string): this;
-    meta(metadata: any): this;
-    meta(): any;
-    describe(): SchemaDescription;
-    concat(schema: this): this;
-    validate(value: any, options?: ValidateOptions): Promise<T>;
-    validateSync(value: any, options?: ValidateOptions): T;
-    validateAt(path: string, value: T, options?: ValidateOptions): Promise<T>;
-    validateSyncAt(path: string, value: T, options?: ValidateOptions): T;
-    isValid(value: any, options?: any): Promise<boolean>;
-    isValidSync(value: any, options?: any): value is T;
-    cast(value: any, options?: any): T;
-    isType(value: any): value is T;
-    strict(isStrict: boolean): this;
-    strip(strip: boolean): this;
-    withMutation(fn: (current: this) => void): void;
-    default(value: any): this;
-    default(): T;
-    typeError(message?: TestOptionsMessage): this;
-    oneOf(arrayOfValues: Array<T | Ref | null>, message?: TestOptionsMessage<{ values: T | Ref }>): this;
-    notOneOf(arrayOfValues: any[], message?: TestOptionsMessage<{ values: T | Ref }>): this;
-    when(keys: string | any[], builder: WhenOptions<this>): this;
-    when<T1, T2, T3>(keys: string | any[], builder: WhenOptions<this, T1, T2, T3>): this;
-    test(
-        name: string,
-        message: TestOptionsMessage,
-        test: (this: TestContext, value?: any) => boolean | ValidationError | Promise<boolean | ValidationError>,
-        callbackStyleAsync?: boolean,
-    ): this;
-    // tslint:disable-next-line:no-unnecessary-generics
-    test<P>(options: TestOptions<P>): this;
-    transform(fn: TransformFunction<this>): this;
+  clone(): this;
+  label(label: string): this;
+  meta(metadata: any): this;
+  meta(): any;
+  describe(): SchemaDescription;
+  concat(schema: this): this;
+  validate(value: any, options?: ValidateOptions): Promise<T>;
+  validateSync(value: any, options?: ValidateOptions): T;
+  validateAt(path: string, value: T, options?: ValidateOptions): Promise<T>;
+  validateSyncAt(path: string, value: T, options?: ValidateOptions): T;
+  isValid(value: any, options?: any): Promise<boolean>;
+  isValidSync(value: any, options?: any): value is T;
+  cast(value: any, options?: any): T;
+  isType(value: any): value is T;
+  strict(isStrict: boolean): this;
+  strip(strip: boolean): this;
+  withMutation(fn: (current: this) => void): void;
+  default(value: any): this;
+  default(): T;
+  typeError(message?: TestOptionsMessage): this;
+  oneOf(
+    arrayOfValues: Array<T | Ref | null>,
+    message?: TestOptionsMessage<{ values: T | Ref }>,
+  ): this;
+  notOneOf(
+    arrayOfValues: any[],
+    message?: TestOptionsMessage<{ values: T | Ref }>,
+  ): this;
+  when(keys: string | any[], builder: WhenOptions<this>): this;
+
+  when<T1, T2, T3>(
+    keys: string | any[],
+    builder: WhenOptions<this, T1, T2, T3>,
+  ): this;
+
+  test(
+    name: string,
+    message: TestOptionsMessage,
+    test: (
+      this: TestContext,
+      value?: any,
+    ) => boolean | ValidationError | Promise<boolean | ValidationError>,
+    callbackStyleAsync?: boolean,
+  ): this;
+  // tslint:disable-next-line:no-unnecessary-generics
+  test<P>(options: TestOptions<P>): this;
+  transform(fn: TransformFunction<this>): this;
 }
 
 export interface MixedSchemaConstructor {
@@ -276,17 +292,32 @@ export interface WhenOptionsBuilderFunction<T> {
     (v1: any, v2: any, v3: any, v4: any, schema: T): T;
 }
 
-export type WhenOptionsBuilderObjectIs<T1, T2, T3> = ((...values: any[]) => boolean) | ((value1: T1, value2: T2, value3: T3) => boolean) | boolean | number | null | object | string;
+
+export type WhenOptionsBuilderObjectIs<T1, T2, T3> =
+  | ((...values: any[]) => boolean)
+  | ((value1: T1, value2: T2, value3: T3) => boolean)
+  | boolean
+  | number
+  | null
+  | object
+  | string;
+
+
 
 export type WhenOptionsBuilderObject<T1, T2, T3> =
-    | {
-          is: WhenOptionsBuilderObjectIs<T1, T2, T3>;
-          then: any;
-          otherwise: any;
-      }
-    | object;
+| {
+  is: WhenOptionsBuilderObjectIs<T1, T2, T3>;
 
-export type WhenOptions<TSchema, TValue1 = any, TValue2 = any, TValue3 = any> = WhenOptionsBuilderFunction<TSchema> | WhenOptionsBuilderObject<TValue1, TValue2, TValue3>;
+  then: any;
+   otherwise: any;
+  }
+| object;
+
+
+export type WhenOptions<TSchema, TValue1 = any, TValue2 = any, TValue3 = any> =
+  | WhenOptionsBuilderFunction<TSchema>
+  | WhenOptionsBuilderObject<TValue1, TValue2, TValue3>;
+
 
 export interface TestContext {
     path: string;
