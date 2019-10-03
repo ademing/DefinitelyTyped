@@ -12,6 +12,7 @@
 //                 Desmond Koh <https://github.com/deskoh>
 //                 Maurice de Beijer <https://github.com/mauricedb>
 //                 Kalley Powell <https://github.com/kalley>
+//                 Aaron Deming <https://github.com/ademing>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.1
 
@@ -72,6 +73,7 @@ export interface Schema<T> {
     oneOf(arrayOfValues: Array<T | Ref | null>, message?: TestOptionsMessage<{ values: T | Ref }>): this;
     notOneOf(arrayOfValues: any[], message?: TestOptionsMessage<{ values: T | Ref }>): this;
     when(keys: string | any[], builder: WhenOptions<this>): this;
+    when<T1, T2, T3>(keys: string | any[], builder: WhenOptions<this, T1, T2, T3>): this;
     test(
         name: string,
         message: TestOptionsMessage,
@@ -274,17 +276,17 @@ export interface WhenOptionsBuilderFunction<T> {
     (v1: any, v2: any, v3: any, v4: any, schema: T): T;
 }
 
-export type WhenOptionsBuilderObjectIs = ((...values: any[]) => boolean) | boolean | number | null | object | string;
+export type WhenOptionsBuilderObjectIs<T1, T2, T3> = ((...values: any[]) => boolean) | ((value1: T1, value2: T2, value3: T3) => boolean) | boolean | number | null | object | string;
 
-export type WhenOptionsBuilderObject =
+export type WhenOptionsBuilderObject<T1, T2, T3> =
     | {
-          is: WhenOptionsBuilderObjectIs;
+          is: WhenOptionsBuilderObjectIs<T1, T2, T3>;
           then: any;
           otherwise: any;
       }
     | object;
 
-export type WhenOptions<T> = WhenOptionsBuilderFunction<T> | WhenOptionsBuilderObject;
+export type WhenOptions<TSchema, TValue1 = any, TValue2 = any, TValue3 = any> = WhenOptionsBuilderFunction<TSchema> | WhenOptionsBuilderObject<TValue1, TValue2, TValue3>;
 
 export interface TestContext {
     path: string;
