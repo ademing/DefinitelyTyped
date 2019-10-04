@@ -283,12 +283,26 @@ export interface ObjectSchema<T extends object | null | undefined = object> exte
 
 export type TransformFunction<T> = (this: T, value: any, originalValue: any) => any;
 
-export interface WhenOptionsBuilderFunction<TSchema, TValue1, TValue2, TValue3, TValue4> {
-    (value: any, schema: TSchema): TSchema;
-    (v1: TValue1, v2: TValue2, schema: TSchema): TSchema;
-    (v1: TValue1, v2: TValue2, v3: TValue3, schema: TSchema): TSchema;
-    (v1: TValue1, v2: TValue2, v3: TValue3, v4: TValue4, schema: TSchema): TSchema;
+
+export interface WhenOptionsBuilderFunction<
+  TSchema,
+  TValue1,
+  TValue2,
+  TValue3,
+  TValue4
+> {
+  (value: any, schema: TSchema): TSchema;
+  (v1: TValue1, v2: TValue2, schema: TSchema): TSchema;
+  (v1: TValue1, v2: TValue2, v3: TValue3, schema: TSchema): TSchema;
+  (
+    v1: TValue1,
+    v2: TValue2,
+    v3: TValue3,
+    v4: TValue4,
+    schema: TSchema,
+  ): TSchema;
 }
+
 
 export type WhenOptionsBuilderObjectIs<T1, T2, T3, T4> =
   | ((...values: any[]) => boolean)
@@ -299,17 +313,27 @@ export type WhenOptionsBuilderObjectIs<T1, T2, T3, T4> =
   | object
   | string;
 
+
 export type WhenOptionsBuilderObject<T1, T2, T3, T4> =
   | {
       is: WhenOptionsBuilderObjectIs<T1, T2, T3, T4>;
+
       then: any;
       otherwise: any;
     }
   | object;
 
-export type WhenOptions<TSchema, TValue1 = any, TValue2 = any, TValue3 = any, TValue4 = any> =
+
+export type WhenOptions<
+  TSchema,
+  TValue1 = any,
+  TValue2 = any,
+  TValue3 = any,
+  TValue4 = any
+> =
   | WhenOptionsBuilderFunction<TSchema, TValue1, TValue2, TValue3, TValue4>
   | WhenOptionsBuilderObject<TValue1, TValue2, TValue3, TValue4>;
+
 
 export interface TestContext {
     path: string;
