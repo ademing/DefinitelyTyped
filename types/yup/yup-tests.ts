@@ -155,7 +155,7 @@ mixed.when('isBig', {
   otherwise: yup.number().min(0),
 });
 mixed.when(['isBig', 'isSpecial'], {
-  is: (isBig, isSpecial, x, y) => isBig && isSpecial,
+  is: (isBig: any, isSpecial: any, x: any, y: any) => isBig && isSpecial,
 
   then: yup.number().min(5),
   otherwise: yup.number().min(0),
@@ -168,6 +168,7 @@ mixed
     })
     .when('$other', (value: any, schema: MixedSchema) => (value === 4 ? schema.required() : schema));
 
+// With generics using object
 mixed.when<number, string, boolean>(['maxValue', 'message', 'isBig'], {
   is: (maxValue: number, message: string, isBig: boolean): boolean => {
     return maxValue > 0 && message.length > 0 && isBig;
@@ -175,6 +176,9 @@ mixed.when<number, string, boolean>(['maxValue', 'message', 'isBig'], {
   then: yup.number().min(5),
   otherwise: yup.number().min(0),
 });
+
+// With generics using function
+// mixed.when<boolean>('test', (_value: boolean, schema: any) => value ? schema);
 
 // tslint:disable-next-line:no-invalid-template-strings
 mixed.test('is-jimmy', '${path} is not Jimmy', value => value === 'jimmy');
